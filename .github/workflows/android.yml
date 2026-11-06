@@ -1,10 +1,11 @@
-name: Build CineNova APK
+name: CineNova APK
 
 on:
   workflow_dispatch:
   push:
     paths:
       - '.github/workflows/android.yml'
+      - 'CineNovaAndroid.zip'
 
 jobs:
   build:
@@ -20,13 +21,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Extract project
-        run: unzip CineNovaAndroid.zip -d project
+      - name: Extract Project
+        run: unzip -o CineNovaAndroid.zip -d project
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
 
       - name: Build APK
         working-directory: project
@@ -36,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: CineNova-APK
-          path: project/app/build/outputs/apk/debug/app-debug.ap
+          path: project/app/build/outputs/apk/debug/app-debug.apk
